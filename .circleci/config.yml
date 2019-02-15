@@ -1,0 +1,41 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/urlshortner
+    docker:
+      - image: circleci/python:3.6.4
+        environment:
+          CIRCLE_CI_ENVIRONMENT: true
+          DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+      - image: circleci/postgres:9.6.2
+        environment:
+          POSTGRES_USER: circleci
+          POSTGRES_DB: circle_test
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "requirements.txt" }}
+          - v1-dependencies-
+
+      - run:
+          name: Install Dependencies
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+            pip install psycopg2-binary
+
+      - save_cache:
+          paths:
+          - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+
+      - run:
+          name: Run Tests
+          command: |
+            . venv/bin/activate
+            python manage.py makemigrations
+            python manage.py migrate
+            python manage.py test
