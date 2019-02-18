@@ -25,6 +25,7 @@ So you can access in the local URL: _[localhost:8000](localhost:8000/)_
 
 ## Libraries
 * Django
+* Pillow
 * Bootstrap
 * JQuery
 * Tesseract
