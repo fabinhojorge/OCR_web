@@ -3,6 +3,15 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+
+
+# ### App Files ###
+# Media
+media/
+
+
+# ### General Files ###
+
 # IDE
 .idea
 

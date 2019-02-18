@@ -1,6 +1,6 @@
 from django.db import models
 from core import utils
-from hashlib import md5
+import hashlib
 
 
 class ImageFileManager(models.Manager):
@@ -15,7 +15,7 @@ class ImageFileManager(models.Manager):
 class ImageFile(models.Model):
 
     name = models.CharField("Name", max_length=100)
-    internal_reference = models.CharField("Internal Reference", max_length=100, unique=True)
+    internal_reference = models.CharField("Internal Reference", max_length=100, editable=False)
     description = models.TextField("Description", blank=True, null=True)
     image = models.ImageField(upload_to="OCR_image/input/", verbose_name="Input Image")
     create_at = models.DateTimeField("Create at", auto_now_add=True)
@@ -44,10 +44,11 @@ class ImageFile(models.Model):
     def save(self, *args, **kwargs):
 
         if not self.internal_reference:
-            random_value = utils.random_link_generator(size=20)
-            while ImageFile.objects.filter(link_short=random_value).exists():
-                random_value = utils.random_link_generator(size=20)
-            self.internal_reference = md5( bytes( str(self.id)+str(random_value), 'utf-8') )
+            random_value = utils.random_value_generator(size=20)
+            while ImageFile.objects.filter(internal_reference=random_value).exists():
+                random_value = utils.random_value_generator(size=20)
+            hash_value = hashlib.md5(bytes(str(self.id) + str(random_value), 'utf-8'))
+            self.internal_reference = hash_value.hexdigest()
         super(ImageFile, self).save(*args, **kwargs)
 
     class Meta:
