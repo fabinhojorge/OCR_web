@@ -48,3 +48,10 @@ For this, please follow the below instructions for your SO:
 * [ ] Create the upload media system: models, forms, templates, media url, etc... 
 * [ ] Call the OCR to process the image
 * [ ] After the core is working, enhance the BE with Celery.
+
+
+## Screen Shots
+
+__Home Page__
+![Home page](project_assets/home_page.jpg)
+
