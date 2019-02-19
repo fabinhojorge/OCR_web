@@ -40,6 +40,7 @@ DEFAULT_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'widget_tweaks',
 ]
 
 CUSTOM_APPS = [

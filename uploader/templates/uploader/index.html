@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block title %} Home {% endblock %}
 
@@ -7,6 +8,12 @@
 {% block extrastyle %} {% endblock %}
 
 {% block extrascript %}
+<script>
+$('.custom-file-input').on('change', function() {
+   let fileName = $(this).val().split('\\').pop();
+   $(this).next('.custom-file-label').addClass("selected").html(fileName);
+});
+</script>
 
 {% endblock %}
 
@@ -15,6 +22,45 @@
 
 <div class="mt-5 text-center">
     <h1>OCR web</h1>
+</div>
+
+<div class="offset-md-2 col-md-8 my-5" id="image_form">
+    <form action="#image_form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <div class="custom-file my-2">
+                {{image_form.image|add_class:"custom-file-input"}}
+                <label class="custom-file-label">{{ image_form.image.label }}</label>
+                {% for error in field.errors %}
+                    <span class="badge badge-danger">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </fieldset>
+    </form>
+</div>
+
+<div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col" class="d-none d-sm-table-cell">Path</th>
+            <th scope="col" class="d-none d-md-table-cell">Internal Reference</th>
+            <th scope="col">Image</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for image in image_list %}
+        <tr>
+            <th scope="row">{{image.id}}</th>
+            <td class="d-none d-sm-table-cell">{{image.image}}</td>
+            <td class="d-none d-md-table-cell">{{image.internal_reference}}</td>
+            <td><img class="img-fluid img-thumbnail " src="/media/{{image.image}}" alt="{{image.image}}" width="100"></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 
