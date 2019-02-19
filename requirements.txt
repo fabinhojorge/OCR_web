@@ -1,0 +1,4 @@
+Django==2.1.7
+Pillow==5.4.1
+pytesseract==0.2.6
+pytz==2018.9

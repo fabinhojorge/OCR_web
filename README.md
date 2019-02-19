@@ -19,6 +19,16 @@ python manage.py runserver
 So you can access in the local URL: _[localhost:8000](localhost:8000/)_
 
 
+Inside the _requirements.txt_ there are a package called __pytesseract__. 
+It´s the wrapper to communicate with the Tesseract library (C/C++ code). 
+So, the next step is to install the Tesseract itself. 
+
+For this follow the below instructions for each SO:
+* [Windows](https://github.com/UB-Mannheim/tesseract/wiki)
+* [Mac and Linux](https://github.com/tesseract-ocr/tesseract/wiki)
+
+
+
 ## How to use
 1. _TBD_
 
@@ -28,7 +38,7 @@ So you can access in the local URL: _[localhost:8000](localhost:8000/)_
 * Pillow
 * Bootstrap
 * JQuery
-* Tesseract
+* Tesseract (pytesseract)
 * Celery
 
 
