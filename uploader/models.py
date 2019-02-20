@@ -1,6 +1,8 @@
 from django.db import models
 from core import utils
 import hashlib
+from PIL import Image
+import pytesseract
 
 
 class ImageFileManager(models.Manager):
@@ -23,6 +25,14 @@ class ImageFile(models.Model):
 
     def __str__(self):
         return "{0:03d} - {1}".format(self.id, self.image)
+
+    def execute_ocr(self):
+        img = Image.open(self.image)
+        print("The image {0} was opened.".format(self.image))
+        txt = pytesseract.image_to_string(img)
+        print('OCR: \n{0}\n'.format(txt))
+        return txt
+
     """
     def get_absolute_url(self):
         from django.urls import reverse

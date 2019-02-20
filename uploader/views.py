@@ -8,8 +8,8 @@ def home(request):
 
     image_form = ImageFileForm(request.POST or None, request.FILES or None)
     if image_form.is_valid():
-        image_form.save()
-        image_form = ImageFileForm()
+        image = image_form.save()
+        image.execute_ocr()
         redirect('home')
 
     image_list = ImageFile.objects.all()
