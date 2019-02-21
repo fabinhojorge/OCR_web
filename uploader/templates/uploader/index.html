@@ -13,6 +13,14 @@ $('.custom-file-input').on('change', function() {
    let fileName = $(this).val().split('\\').pop();
    $(this).next('.custom-file-label').addClass("selected").html(fileName);
 });
+
+
+function show_img_details(img_path){
+    $('#img_detail').attr("src", img_path);
+    $('#img_detail_modal').modal('toggle');
+}
+
+
 </script>
 
 {% endblock %}
@@ -32,7 +40,7 @@ $('.custom-file-input').on('change', function() {
                 {{image_form.image|add_class:"custom-file-input"}}
                 <label class="custom-file-label">{{ image_form.image.label }}</label>
                 {% for error in field.errors %}
-                    <span class="badge badge-danger">{{ error }}</span>
+                <span class="badge badge-danger">{{ error }}</span>
                 {% endfor %}
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -56,11 +64,31 @@ $('.custom-file-input').on('change', function() {
             <th scope="row">{{image.id}}</th>
             <td class="d-none d-sm-table-cell">{{image.image}}</td>
             <td class="d-none d-md-table-cell">{{image.internal_reference}}</td>
-            <td><img class="img-fluid img-thumbnail " src="/media/{{image.image}}" alt="{{image.image}}" width="100"></td>
+            <td>
+                <a href="#" class="" onclick="show_img_details('/media/{{image.image}}')">
+                    <img class="img-fluid img-thumbnail " src="/media/{{image.image}}" alt="{{image.image}}" width="100" />
+                </a>
+            </td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
+</div>
+
+
+<div id="img_detail_modal" class="modal mt-5" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="img_detail" class="img-fluid" src="" alt="" />
+            </div>
+        </div>
+    </div>
 </div>
 
 
