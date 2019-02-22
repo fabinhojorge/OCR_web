@@ -5,7 +5,15 @@
 
 {% block extrahead %} {% endblock %}
 
-{% block extrastyle %} {% endblock %}
+{% block extrastyle %}
+<style>
+
+    .clickable_img:hover {
+        cursor: pointer;
+    }
+</style>
+
+{% endblock %}
 
 {% block extrascript %}
 <script>
@@ -52,10 +60,10 @@ function show_img_details(img_path){
     <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col">#</th>
+            <th scope="col" class="text-center">#</th>
             <th scope="col" class="d-none d-sm-table-cell">Path</th>
             <th scope="col" class="d-none d-md-table-cell">Internal Reference</th>
-            <th scope="col">Image</th>
+            <th scope="col" class="text-center">Image</th>
         </tr>
         </thead>
         <tbody>
@@ -64,10 +72,10 @@ function show_img_details(img_path){
             <th scope="row">{{image.id}}</th>
             <td class="d-none d-sm-table-cell">{{image.image}}</td>
             <td class="d-none d-md-table-cell">{{image.internal_reference}}</td>
-            <td>
-                <a href="#" class="" onclick="show_img_details('/media/{{image.image}}')">
+            <td class="text-center">
+                <div class="clickable_img"  onclick="show_img_details('/media/{{image.image}}')">
                     <img class="img-fluid img-thumbnail " src="/media/{{image.image}}" alt="{{image.image}}" width="100" />
-                </a>
+                </div>
             </td>
         </tr>
         {% endfor %}
