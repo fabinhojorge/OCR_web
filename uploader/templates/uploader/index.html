@@ -62,7 +62,8 @@ function show_img_details(img_path){
         <tr>
             <th scope="col" class="text-center">#</th>
             <th scope="col" class="d-none d-sm-table-cell">Path</th>
-            <th scope="col" class="d-none d-md-table-cell">Internal Reference</th>
+            <th scope="col" class="d-none d-sm-table-cell">Internal Reference</th>
+            <th scope="col" class="d-none d-md-table-cell">OCR Text</th>
             <th scope="col" class="text-center">Image</th>
         </tr>
         </thead>
@@ -71,7 +72,10 @@ function show_img_details(img_path){
         <tr>
             <th scope="row">{{image.id}}</th>
             <td class="d-none d-sm-table-cell">{{image.image}}</td>
-            <td class="d-none d-md-table-cell">{{image.internal_reference}}</td>
+            <td class="d-none d-sm-table-cell">{{image.internal_reference}}</td>
+            {% with image.ocrtext_set.last as ocrtext%}
+            <td class="d-none d-md-table-cell">{{ ocrtext.text|truncatechars:150}}</td>
+            {% endwith%}
             <td class="text-center">
                 <div class="clickable_img"  onclick="show_img_details('/media/{{image.image}}')">
                     <img class="img-fluid img-thumbnail " src="/media/{{image.image}}" alt="{{image.image}}" width="100" />

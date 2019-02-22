@@ -26,29 +26,23 @@ class ImageFile(models.Model):
     def __str__(self):
         return "{0:03d} - {1}".format(self.id, self.image)
 
-    def execute_ocr(self):
+    def execute_and_save_ocr(self):
         img = Image.open(self.image)
         print("The image {0} was opened.".format(self.image))
         txt = pytesseract.image_to_string(img)
         print('OCR: \n{0}\n'.format(txt))
-        return txt
+        ocr_txt = OCRText()
+        ocr_txt.image = self
+        ocr_txt.text = txt
+        ocr_txt.lang = "EN"
+        ocr_txt.save()
+        return ocr_txt
 
     """
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('course_details', args=[], kwargs={'slug': self.slug})
 
-    def get_absolute_url_enrollment(self):
-        from django.urls import reverse
-        return reverse('course_enrollment', args=[], kwargs={'slug': self.slug})
-
-    def get_absolute_url_cancel(self):
-        from django.urls import reverse
-        return reverse('course_cancel_enrollment', args=[], kwargs={'slug': self.slug})
-
-    def get_absolute_url_activate(self):
-        from django.urls import reverse
-        return reverse('course_activate_enrollment', args=[], kwargs={'slug': self.slug})
     """
 
     def save(self, *args, **kwargs):
@@ -67,3 +61,36 @@ class ImageFile(models.Model):
         ordering = ['id']
 
     objects = ImageFileManager()
+
+
+class OCRText(models.Model):
+    text = models.TextField("OCR text", blank=True)
+    lang = models.TextField("Language", default="EN")
+    image = models.ForeignKey('ImageFile', on_delete=models.CASCADE)
+    create_at = models.DateTimeField("Create at", auto_now_add=True)
+    updated_at = models.DateTimeField("Update at", auto_now=True)
+
+    def __str__(self):
+        return "{0:03d} - {1}".format(self.id, self.image.internal_reference)
+
+    """
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('course_details', args=[], kwargs={'slug': self.slug})
+
+    """
+    """
+    def save(self, *args, **kwargs):
+
+        if not self.internal_reference:
+            random_value = utils.random_value_generator(size=20)
+            while ImageFile.objects.filter(internal_reference=random_value).exists():
+                random_value = utils.random_value_generator(size=20)
+            hash_value = hashlib.md5(bytes(str(self.id) + str(random_value), 'utf-8'))
+            self.internal_reference = hash_value.hexdigest()
+        super(ImageFile, self).save(*args, **kwargs)
+    """
+    class Meta:
+        verbose_name = "OCRText"
+        verbose_name_plural = "OCRTexts"
+        ordering = ['id']
