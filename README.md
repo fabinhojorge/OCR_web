@@ -60,3 +60,5 @@ For this, please follow the below instructions for your SO:
 __Home Page__
 ![Home page](project_assets/home_page.jpg)
 
+__Image Zoom__
+![Image Zoom](project_assets/image_zoom.jpg)
