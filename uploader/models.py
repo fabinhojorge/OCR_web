@@ -73,23 +73,7 @@ class OCRText(models.Model):
     def __str__(self):
         return "{0:03d} - {1}".format(self.id, self.image.internal_reference)
 
-    """
-    def get_absolute_url(self):
-        from django.urls import reverse
-        return reverse('course_details', args=[], kwargs={'slug': self.slug})
 
-    """
-    """
-    def save(self, *args, **kwargs):
-
-        if not self.internal_reference:
-            random_value = utils.random_value_generator(size=20)
-            while ImageFile.objects.filter(internal_reference=random_value).exists():
-                random_value = utils.random_value_generator(size=20)
-            hash_value = hashlib.md5(bytes(str(self.id) + str(random_value), 'utf-8'))
-            self.internal_reference = hash_value.hexdigest()
-        super(ImageFile, self).save(*args, **kwargs)
-    """
     class Meta:
         verbose_name = "OCRText"
         verbose_name_plural = "OCRTexts"
