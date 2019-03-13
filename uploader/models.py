@@ -29,7 +29,7 @@ class ImageFile(models.Model):
     def execute_and_save_ocr(self):
         img = Image.open(self.image)
         print("The image {0} was opened.".format(self.image))
-        txt = pytesseract.image_to_string(img)
+        txt = pytesseract.image_to_string(img, lang='eng')
         print('OCR: \n{0}\n'.format(txt))
         ocr_txt = OCRText()
         ocr_txt.image = self
