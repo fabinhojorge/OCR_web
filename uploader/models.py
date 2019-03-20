@@ -29,16 +29,15 @@ class ImageFile(models.Model):
     def execute_and_save_ocr(self):
         import time
         start_time = time.time()
+
         img = Image.open(self.image)
-        print("The image {0} was opened.".format(self.image))
         txt = pytesseract.image_to_string(img, lang='eng')
-        print('OCR: \n{0}\n'.format(txt))
-        ocr_txt = OCRText()
-        ocr_txt.image = self
-        ocr_txt.text = txt
-        ocr_txt.lang = "EN"
-        ocr_txt.execution_time = time.time()-start_time
+        execution_time = time.time() - start_time
+        ocr_txt = OCRText(image = self, text = txt, lang = "EN", execution_time = execution_time)
         ocr_txt.save()
+
+        print("The image {0} was opened.".format(self.image))
+        print('OCR: \n{0}\n'.format(txt))
         print('Execution Time: {0}'.format(ocr_txt.execution_time))
 
         return ocr_txt
@@ -47,7 +46,6 @@ class ImageFile(models.Model):
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('course_details', args=[], kwargs={'slug': self.slug})
-
     """
 
     def save(self, *args, **kwargs):
